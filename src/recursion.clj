@@ -54,10 +54,22 @@
       (my-filter pred? (rest a-seq)))))
 
 (defn sequence-contains? [elem a-seq]
-  :-)
+  (if (empty? a-seq)
+    false
+    (if (= elem (first a-seq))
+      true
+      (sequence-contains? elem (rest a-seq)))))
 
 (defn my-take-while [pred? a-seq]
-  [:-])
+  (cond
+   (empty? a-seq)
+   '()
+   (pred? (first a-seq))
+   (cons (first a-seq) (my-take-while pred? (rest a-seq)))
+   :else
+   '()))
+
+(my-take-while odd? [1 4 3 5 7 2 9 11])
 
 (defn my-drop-while [pred? a-seq]
   [:-])
