@@ -126,10 +126,17 @@
 (my-range 12)
 
 (defn tails [a-seq]
-  [:-])
+  (cond (empty? a-seq) (list a-seq)
+        :else (cons a-seq (tails (rest a-seq)))))
+
+(tails [5 6 7])
 
 (defn inits [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    (list a-seq)
+    (map reverse (tails (reverse a-seq)))))
+
+(inits [5 6 9 7])
 
 (defn rotations [a-seq]
   [:-])
