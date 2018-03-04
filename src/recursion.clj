@@ -139,31 +139,94 @@
 (inits [5 6 9 7])
 
 (defn rotations [a-seq]
-  [:-])
+  (if (empty? a-seq) (cons () '())
+    (rest (map concat (reverse (tails a-seq)) (inits a-seq)))))
+
 
 (defn my-frequencies-helper [freqs a-seq]
-  [:-])
+  (if (empty? a-seq) freqs
+    (let [item (first a-seq)
+          old-count (if (contains? freqs item) (freqs item) 0)
+          new-freqs (assoc freqs item (inc old-count)) ]
+      (my-frequencies-helper new-freqs (rest a-seq)))))
 
 (defn my-frequencies [a-seq]
-  [:-])
+  (my-frequencies-helper {} a-seq))
+
+(def mymap {:a 1 :b 2})
+
+(first mymap)
+
+(contains? mymap :a)
+
+(def data[1 2 5 4 4 4 3 1 7 4 8 2 5 4 3 2 3 3 4])
 
 (defn un-frequencies [a-map]
-  [:-])
+  (if (empty? a-map) '()
+    (let [what (first (first a-map))
+          cnt  (second (first a-map))]
+      (concat (my-repeat cnt what) (un-frequencies (rest a-map))))))
+
+(def histogram (my-frequencies data))
+
+histogram
+
+(un-frequencies histogram)
 
 (defn my-take [n coll]
-  [:-])
+  (let [cnt (count coll)]
+    (cond
+     (= n 0) nil
+     (empty? coll) nil
+      :else (cons (first coll) (my-take (- n 1) (rest coll))))))
+
+(my-take 45 data)
 
 (defn my-drop [n coll]
-  [:-])
+  (let [cnt (count coll)]
+    (cond
+     (= n 0) coll
+     (< cnt n) '()
+       :else (my-drop (- n 1) (rest coll)))))
+
+(my-drop 2 data)
+
+(vector 1 2)
 
 (defn halve [a-seq]
-  [:-])
+  (cond
+   (empty? a-seq) (vector '() '())
+   (singleton? a-seq) (vector (list a-seq) '())
+   :else (let [n (int (/ (count a-seq) 2))]
+    (vector (my-take n a-seq) (my-drop n a-seq)))))
+
+(halve [])
 
 (defn seq-merge [a-seq b-seq]
-  [:-])
+  (let [cnt-a (count a-seq)
+        cnt-b (count b-seq)
+        fa (first a-seq)
+        fb (first b-seq)]
+        (cond
+         (and (= cnt-a 0) (= cnt-b 0)) nil
+         (= cnt-b 0) a-seq
+         (= cnt-a 0) b-seq
+         :else (cond
+                (<= fa fb) (cons fa (seq-merge (rest a-seq) b-seq))
+                :else (cons fb (seq-merge a-seq (rest b-seq)))))))
 
 (defn merge-sort [a-seq]
-  [:-])
+  (cond
+   (empty? a-seq) a-seq
+   (singleton? a-seq) a-seq
+   :else (let [parts (halve a-seq)]
+      (seq-merge (merge-sort (first parts))
+                 (merge-sort (second parts))))))
+
+(def ts [])
+(merge-sort ts)
+(frequencies data)
+(merge-sort data)
 
 (defn split-into-monotonics [a-seq]
   [:-])
