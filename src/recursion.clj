@@ -194,12 +194,9 @@ histogram
 (vector 1 2)
 
 (defn halve [a-seq]
-  (cond
-   (empty? a-seq) (vector '() '())
-   (singleton? a-seq) (vector (list a-seq) '())
-   :else (let [n (int (/ (count a-seq) 2))]
-    (vector (my-take n a-seq) (my-drop n a-seq)))))
-
+  (let [ split (int (/ (count a-seq) 2)) ]
+    (seq (vector (take split a-seq)
+                 (drop split a-seq)))))
 (halve [])
 
 (defn seq-merge [a-seq b-seq]
