@@ -69,10 +69,16 @@
    :else
    '()))
 
-(my-take-while odd? [1 4 3 5 7 2 9 11])
+(my-take-while odd? [1 3 4 5 7 2 9 11])
 
 (defn my-drop-while [pred? a-seq]
-  [:-])
+  (cond
+   (empty? a-seq)
+   '()
+   (pred? (first a-seq))
+          (my-drop-while pred? (rest a-seq))
+   :else
+    a-seq))
 
 (defn seq= [a-seq b-seq]
   :-)
