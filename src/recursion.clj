@@ -113,10 +113,17 @@
         :else (+ (fib (- n 2)) (fib (- n 1)))))
 
 (defn my-repeat [how-many-times what-to-repeat]
-  [:-])
+  (cond (<= how-many-times 0) '()
+        :else
+        (cons what-to-repeat
+              (my-repeat (- how-many-times 1) what-to-repeat))))
 
 (defn my-range [up-to]
-  [:-])
+  (cond (<= up-to 0) '()
+        :else
+        (cons (- up-to 1) (my-range (- up-to 1)))))
+
+(my-range 12)
 
 (defn tails [a-seq]
   [:-])
